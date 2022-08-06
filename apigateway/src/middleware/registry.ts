@@ -8,7 +8,7 @@ export async function getRegistry(
 ) {
   try {
     const url = process.env.SERVICE_REGISTRY_URL;
-    const { data } = await axios.get(`${url}/service${request.baseUrl}`);
+    const { data } = await axios.get(`${url}/service${request.url}`);
     (request as any)["service"] = data;
 
     return next();
