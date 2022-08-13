@@ -16,10 +16,19 @@ app.get("/", (req, res) => {
 
 const listener = app.listen(0, () => {
   const address = listener.address() as AddressInfo;
-  console.log(`Server running on ${address.port}`);
+  console.log(`Server running on port ${address.port}`);
 
   ServiceRegistry.register({
     name: "products",
     port: address.port,
+  });
+
+  const signals = ["SIGTERM", "SIGINT", "uncaughtException"];
+
+  signals.forEach((signal) => {
+    process.on(signal, async () => {
+      await ServiceRegistry.unregister({ port: address.port });
+      process.exit(0);
+    });
   });
 });

@@ -19,6 +19,16 @@ class ServiceRegistry {
     };
   }
 
+  unregister(ip: string, port: string) {
+    const host = ip.includes("::") ? `[${ip}]` : ip;
+    const service = `http://${host}:${port}`;
+
+    if (this.services[service]) {
+      delete this.services[service];
+      console.log(`# Unregistering service with address ${service}`);
+    }
+  }
+
   get(service: string): string {
     const instances = Object.values(this.services).filter(
       (s) => s.name === service

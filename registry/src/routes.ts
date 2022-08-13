@@ -14,6 +14,12 @@ routes.post("/register", (req, res) => {
   ServiceRegistry.register(name, ip, port);
 });
 
+routes.put("/unregister", (req, res) => {
+  const ip = req.socket.remoteAddress || "";
+  const port = req.body.port;
+  ServiceRegistry.unregister(ip, port);
+});
+
 routes.get("/service/:service", (req, res) => {
   try {
     const service = ServiceRegistry.get(req.params.service);
