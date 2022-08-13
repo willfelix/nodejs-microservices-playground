@@ -6,7 +6,7 @@ class ServiceRegistry {
   }
 
   register(name: string, ip: string, port: string) {
-    const host = ip === "::" ? "127.0.0.1" : ip;
+    const host = ip.includes("::") ? `[${ip}]` : ip;
     const service = `http://${host}:${port}`;
 
     if (this.services[service]) return;

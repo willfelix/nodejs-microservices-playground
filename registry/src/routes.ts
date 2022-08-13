@@ -8,7 +8,7 @@ routes.get("/", (req, res) => {
 });
 
 routes.post("/register", (req, res) => {
-  const ip = req.body.ip;
+  const ip = req.socket.remoteAddress || "";
   const port = req.body.port;
   const name = req.body.name;
   ServiceRegistry.register(name, ip, port);

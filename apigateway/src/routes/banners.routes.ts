@@ -1,14 +1,10 @@
-import axios from "axios";
 import express from "express";
+import { API } from "../adapters/api";
 
 const routes = express.Router();
 
 routes.get("/", async (req, res) => {
-  const service: string = (req as any)["service"];
-  const url = `${service}/`;
-
-  console.log(`GET ${url}`);
-  const { data } = await axios.get(url);
+  const data = await API.get(`${req.service}/`);
   res.json(data);
 });
 

@@ -1,14 +1,11 @@
-import axios from "axios";
 import express from "express";
+import { API } from "../adapters/api";
 
 const routes = express.Router();
 
-routes.get("/", async (req, res, next) => {
-  const service: string = (req as any)["service"];
-
-  const banners = await axios.get(`${service}/products`);
-
-  res.json(banners);
+routes.get("/", async (req, res) => {
+  const data = await API.get(`${req.service}/products`);
+  res.json(data);
 });
 
 export default routes;

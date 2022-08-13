@@ -20,7 +20,6 @@ const listener = app.listen(0, () => {
 
   ServiceRegistry.register({
     name: "products",
-    ip: address.address,
     port: address.port,
   });
 });

@@ -14,13 +14,12 @@ app.get("/", (req, res) => {
   ]);
 });
 
-const listener = app.listen(3002, () => {
+const listener = app.listen(0, () => {
   const address = listener.address() as AddressInfo;
   console.log(`Server running on ${address.port}`);
 
   ServiceRegistry.register({
     name: "banners",
-    ip: address.address,
     port: address.port,
   });
 });
