@@ -11,7 +11,7 @@ type RequestMethod = "get" | "post" | "put" | "delete" | "patch";
 
 type Cache = {
   [key: string]: {
-    timestamp: number;
+    expireAt: number;
     value: any;
   };
 };
@@ -19,7 +19,7 @@ type Cache = {
 class APIHandler {
   private cache: Cache;
   private readonly circuit: CircuitBreaker;
-  private readonly CACHING_TIMEOUT_IN_SECONDS: number = 60 * 1000;
+  private readonly CACHING_TIMEOUT_IN_SECONDS: number = 20 * 1000;
 
   constructor() {
     this.circuit = new CircuitBreaker();
@@ -87,19 +87,24 @@ class APIHandler {
     if (!this.cache[url]) {
       this.cache[url] = {
         value: undefined,
-        timestamp: Number.MAX_VALUE,
+        expireAt: 0,
       };
     }
 
-    const isExpired =
-      this.cache[url].timestamp >
-      new Date().getTime() + this.CACHING_TIMEOUT_IN_SECONDS;
+    const now = new Date().getTime();
+    const isExpired = this.cache[url].expireAt < now;
+
+    console.log({
+      expireAt: this.cache[url].expireAt,
+      now,
+      isExpired,
+    });
 
     if (isExpired) {
       const { data } = await this.doRequest(url, method, params);
       this.cache[url] = {
         value: data,
-        timestamp: new Date().getTime(),
+        expireAt: new Date().getTime() + this.CACHING_TIMEOUT_IN_SECONDS,
       };
     }
 

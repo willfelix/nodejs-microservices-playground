@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class ServiceRegistry {
   private static timer: any = null;
-  private static readonly INTERVAL_SECONDS = 10 * 1000;
+  private static readonly INTERVAL_SECONDS = 5 * 1000;
 
   static register({ name, port }) {
     this.timer = setInterval(() => {

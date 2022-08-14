@@ -23,13 +23,21 @@ const listener = app.listen(0, () => {
     port: address.port,
   });
 
-  const signals = ["SIGTERM", "SIGINT", "uncaughtException"];
+  process.on("SIGTERM", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
+    });
+  });
 
-  signals.forEach((signal) => {
-    process.on(signal, () => {
-      ServiceRegistry.unregister({ port: address.port }).finally(() => {
-        process.exit(0);
-      });
+  process.on("SIGINT", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
+    });
+  });
+
+  process.on("uncaughtException", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
     });
   });
 });

@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json([
-    { title: "Banner 01", image: "" },
+    { title: "Banner 01 teste", image: "" },
     { title: "Banner 02", image: "" },
     { title: "Banner 03", image: "" },
   ]);
@@ -23,13 +23,21 @@ const listener = app.listen(3003, () => {
     port: address.port,
   });
 
-  const signals = ["SIGTERM", "SIGINT", "uncaughtException"];
+  process.on("SIGTERM", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
+    });
+  });
 
-  signals.forEach((signal) => {
-    process.on(signal, () => {
-      ServiceRegistry.unregister({ port: address.port }).finally(() => {
-        process.exit(0);
-      });
+  process.on("SIGINT", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
+    });
+  });
+
+  process.on("uncaughtException", () => {
+    ServiceRegistry.unregister({ port: address.port }).finally(() => {
+      process.exit(0);
     });
   });
 });
