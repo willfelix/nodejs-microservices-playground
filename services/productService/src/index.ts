@@ -26,9 +26,10 @@ const listener = app.listen(0, () => {
   const signals = ["SIGTERM", "SIGINT", "uncaughtException"];
 
   signals.forEach((signal) => {
-    process.on(signal, async () => {
-      await ServiceRegistry.unregister({ port: address.port });
-      process.exit(0);
+    process.on(signal, () => {
+      ServiceRegistry.unregister({ port: address.port }).finally(() => {
+        process.exit(0);
+      });
     });
   });
 });

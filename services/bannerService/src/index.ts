@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   ]);
 });
 
-const listener = app.listen(0, () => {
+const listener = app.listen(3003, () => {
   const address = listener.address() as AddressInfo;
   console.log(`Server running on port ${address.port}`);
 
@@ -26,9 +26,10 @@ const listener = app.listen(0, () => {
   const signals = ["SIGTERM", "SIGINT", "uncaughtException"];
 
   signals.forEach((signal) => {
-    process.on(signal, async () => {
-      await ServiceRegistry.unregister({ port: address.port });
-      process.exit(0);
+    process.on(signal, () => {
+      ServiceRegistry.unregister({ port: address.port }).finally(() => {
+        process.exit(0);
+      });
     });
   });
 });
