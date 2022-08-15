@@ -22,22 +22,4 @@ const listener = app.listen(0, () => {
     name: "products",
     port: address.port,
   });
-
-  process.on("SIGTERM", () => {
-    ServiceRegistry.unregister({ port: address.port }).finally(() => {
-      process.exit(0);
-    });
-  });
-
-  process.on("SIGINT", () => {
-    ServiceRegistry.unregister({ port: address.port }).finally(() => {
-      process.exit(0);
-    });
-  });
-
-  process.on("uncaughtException", () => {
-    ServiceRegistry.unregister({ port: address.port }).finally(() => {
-      process.exit(0);
-    });
-  });
 });

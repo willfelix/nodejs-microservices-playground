@@ -1,0 +1,12 @@
+{
+  "services": [
+    {
+      "service": "banners",
+      "path": "/api/banners/*"
+    },
+    {
+      "service": "products",
+      "path": "/api/products/*"
+    }
+  ]
+}
