@@ -1,5 +1,6 @@
 import { api } from "../adapters/api";
 import { APIError } from "../adapters/exception";
+import { RequestMethod } from "../interfaces/api";
 import { CircuitBreaker } from "./circuitBreaker";
 
 type Cache = {
@@ -17,8 +18,6 @@ type RequestOptions = {
   params?: any;
 };
 
-export type RequestMethod = "get" | "post" | "put" | "delete" | "patch";
-
 class APIHandler {
   private cache: Cache;
   private readonly circuit: CircuitBreaker;
@@ -27,26 +26,6 @@ class APIHandler {
   constructor() {
     this.circuit = new CircuitBreaker();
     this.cache = {};
-  }
-
-  get(url: string, options: RequestOptions) {
-    return this.request(url, "get", options);
-  }
-
-  post(url: string, options: RequestOptions) {
-    return this.request(url, "post", options);
-  }
-
-  put(url: string, options: RequestOptions) {
-    return this.request(url, "put", options);
-  }
-
-  patch(url: string, options: RequestOptions) {
-    return this.request(url, "patch", options);
-  }
-
-  delete(url: string, options: RequestOptions) {
-    return this.request(url, "delete", options);
   }
 
   async request(url: string, method: RequestMethod, options: RequestOptions) {
