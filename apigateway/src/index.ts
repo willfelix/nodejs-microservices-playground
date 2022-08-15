@@ -1,19 +1,10 @@
 import "dotenv/config";
-import express from "express";
-import "express-async-errors";
-import { errorHandler } from "./middleware/error";
 
-import routes from "./routes";
+import { logger } from "./adapters/logger";
+import server from "./adapters/server";
 
-const port = process.env.PORT || 3001;
-const app = express();
-
-app.use(express.json());
-
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/", routes);
-
-app.use(errorHandler);
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+try {
+  server.start();
+} catch (e) {
+  logger.error("[apigateway] uncaught error", e);
+}

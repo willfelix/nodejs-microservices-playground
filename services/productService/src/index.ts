@@ -1,10 +1,15 @@
 import express from "express";
+import morgan from "morgan";
 import { AddressInfo } from "net";
 import ServiceRegistry from "../lib/registry";
 
 const app = express();
 
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
   res.json([

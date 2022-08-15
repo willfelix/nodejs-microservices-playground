@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 import { AddressInfo } from "net";
 import ServiceRegistry from "../lib/registry";
 
@@ -12,7 +13,11 @@ const banners = [
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan("tiny"));
+
+app.get("/", (_, res) => {
   res.json(banners);
 });
 
