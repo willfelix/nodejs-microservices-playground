@@ -1,0 +1,29 @@
+{
+    "name": "checkout",
+    "version": "1.0.0",
+    "description": "",
+    "engines": {
+        "node": "21.1.0"
+    },
+    "scripts": {
+        "dev": "npx nodemon",
+        "start": "npm run build && node dist/index.js",
+        "build": "rimraf ./dist && tsc",
+        "test": "node test/application/usecase/checkout.test.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "amqplib": "^0.10.3",
+        "axios": "^1.6.0",
+        "pg-promise": "^11.5.4"
+    },
+    "devDependencies": {
+        "@types/amqplib": "^0.10.3",
+        "@types/node": "^20.8.10",
+        "nodemon": "^3.0.1",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.2.2"
+    }
+}
